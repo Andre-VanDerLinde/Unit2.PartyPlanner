@@ -1,0 +1,1 @@
+const API = "https://fsa-crud-2aa9294fe819.herokuapp.com/api/2501-FTB-ET-WEB-PT/recipes"
