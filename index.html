@@ -8,6 +8,38 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="root" id="root"></div>
+    <div class="root" id="root">
+        <div class="eventAttributes">
+            <h2 class="label">Names</h2>
+            <h2 class="label">Dates</h2>
+            <h2 class="label">Times</h2>
+            <h2 class="label">Locations</h2>
+            <h2 class="label">Descriptions</h2>
+        </div>
+        
+        <div class="eventValues">
+            <p class="val">name</p>
+            <p class="val">date</p>
+            <p class="val">time</p>
+            <p class="val">location</p>
+            <p class="val">A night of celebration and networking</p>
+            <button class="deleteButt">DELETE</button>
+        </div>
+
+        <form action="" class="form">
+            <h2>Schedule an Event</h2>
+            <label for="name">Enter Event Name:</label>
+            <input type="text" name="name" id="name"></input>
+            <label for="date">Event Date:</label>
+            <input type="date" name="date" id="date"></input>
+            <label for="time">Event Time:</label>
+            <input type="time" name="time" id="time"></input>
+            <label for="location">Event Location:</label>
+            <input type="text" name="location" id="location"></input>
+            <label for="description">Event Descriptions:</label>
+            <input type="text" name="description" id="description"></input>
+            <button type="submit">Submit</button>
+        </form> 
+    </div>
 </body>
 </html>

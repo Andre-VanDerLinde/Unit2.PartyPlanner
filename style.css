@@ -1,0 +1,44 @@
+*{
+    margin: 5px;
+    padding: 5px;
+    align-content: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.eventAttributes{
+    display: grid;
+    grid-template-columns: repeat(5,1fr)+.5fr;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    border: 1px black solid;
+}
+
+.eventValues{
+    display: grid;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: repeat(5,1fr)+.5fr;
+    font-size: 17px; 
+}
+
+.deleteButt{
+    height: 40px;
+    width: auto;
+}
+
+p{
+    border: 1px black solid;
+    margin: 0;
+    
+}
+
+.form{
+    padding: 10px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    border: 1px black solid;
+    box-shadow: 5px 5px rgba(143, 141, 141, 0.616);
+}
