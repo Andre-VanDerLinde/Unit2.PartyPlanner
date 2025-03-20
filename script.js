@@ -7,22 +7,30 @@ const state = {
 
 const root = document.querySelector(".root");
 
+// renders content on page for API PULL and after PUSH
 const render = (content) => {
-    content.forEach( data => {
-        const event = document.createElement('div');
-        event.classList.add('eventValues');
+    if(Array.isArray(content)){ 
+        root.querySelectorAll(".eventValues").forEach(event => event.remove());
+        content.forEach(generateContent);
+    }else{
+        generateContent(content);
+    }
+}
 
-        const {date, time} = deconstructISOString(data.date);
-        event.innerHTML = `
-            <p class="val">${data.name}</p>
-            <p class="val">${date}</p>
-            <p class="val">${time}</p>
-            <p class="val">${data.location}</p>
-            <p class="val">${data.description}</p>
-            <button class="deleteButt">DELETE</button>
-        `  
-        root.appendChild(event);     
-    });
+// generating content used by Render function
+function generateContent(data){
+    const event = document.createElement('div');
+    event.classList.add('eventValues');
+    const {date, time} = deconstructISOString(data.date);
+    event.innerHTML = `
+        <p class="val">${data.name}</p>
+        <p class="val">${date}</p>
+        <p class="val">${time}</p>
+        <p class="val">${data.location}</p>
+        <p class="val">${data.description}</p>
+        <button class="deleteButt" id=${data.id}>DELETE</button>
+    `  
+    root.appendChild(event);     
 }
 
 // Retrieving data from API
@@ -33,9 +41,8 @@ const getEvents = async () =>{
 
         state.events = data.data;
 
-        console.log(state.events);
-
         render(state.events);
+        
 
     }catch(e){
         console.error("Failed to fetch data:", e);
@@ -62,10 +69,6 @@ submit.addEventListener('click', (e)=>{
 
     // resetting form
     document.querySelector('form').reset();
-
-    // re-Render
-    render(state.events);
-
 })
 
 const createEvent = async(event) => {
@@ -77,8 +80,10 @@ const createEvent = async(event) => {
         })
 
         const data = await res.json();
+        state.events = data.data;
+
+        render(state.events);
         
-        console.log(data);
     }catch(e){
         console.error(e);
     }
@@ -92,25 +97,29 @@ const convertToISOString = (dateInput, timeInput) => {
 };
 
 const deconstructISOString = (ISO) => {
+
     const dateObj = new Date(ISO);
-
-    console.log(dateObj)
-    
-    // Extract date in "YYYY-MM-DD" format
-    const date = dateObj.toISOString().split("T")[0]; 
-
-    // Extract hours and minutes
-    let hours = dateObj.getHours();
-    const minutes = dateObj.getMinutes().toString().padStart(2, "0");
-
-    // Determine AM/PM
-    const ampm = hours >= 12 ? "PM" : "AM";
-
-    // Convert hours from 24-hour to 12-hour format
-    hours = hours % 12 || 12; // Convert "0" to "12" for 12 AM
-
-    // Format time in "HH:MM AM/PM"
-    const time = `${hours}:${minutes} ${ampm}`;
-
+    const date = dateObj.toDateString();
+    const time = dateObj.toTimeString();
     return { date, time };
 };
+
+document.addEventListener('click', (e)=>{
+    if(e.target.classList.contains("deleteButt")){
+        console.log(e.target.id);
+        deleteEvent(e.target.id);
+    }
+})
+
+const deleteEvent = async (id) =>{
+    try {
+        await fetch(`${API}/${parseInt(id)}`,{
+            method: 'DELETE'
+        })
+
+        getEvents();
+
+    } catch (e) {
+        console.error(e)    
+    }
+}
